@@ -89,13 +89,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Ajout du sélecteur sans utiliser 'class_name'
-chart_type = st.selectbox(
-    "📊 Sélectionnez le type de graphique :",
-    ["Histogramme", "Boîte à moustaches", "Diagramme à barres"],
-    key="chart_select"
-)
-
     # Ajout d'une image en tant qu'arrière-plan pour la partie droite
 
 # Background function
