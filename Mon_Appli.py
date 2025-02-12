@@ -77,6 +77,25 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+# Injection de CSS personnalisé pour réduire la largeur du selectbox
+st.markdown(
+    """
+    <style>
+        .stSelectbox [data-baseweb="select"] {
+            width: 300px; /* Ajustez la largeur selon vos besoins */
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+# Ajout du sélecteur sans utiliser 'class_name'
+chart_type = st.selectbox(
+    "📊 Sélectionnez le type de graphique :",
+    ["Histogramme", "Boîte à moustaches", "Diagramme à barres"],
+    key="chart_select"
+)
+
     # Ajout d'une image en tant qu'arrière-plan pour la partie droite
 
 # Background function
@@ -104,7 +123,7 @@ except Exception as e:
 st.markdown("""
 This app allows you to scrape and analyze data on dogs and sheep from Expat-Dakar.
 * **Python libraries:** requests, pandas, beautifulsoup4, streamlit
-* **Data source:** [Expat-Dakar](https://www.expat-dakar.com/).
+* **Data source:** [sn.coinafrique](https://sn.coinafrique.com/).
 """)
 
 # 📂 **Menu de navigation dans la barre latérale**
@@ -117,7 +136,7 @@ menu_option = st.sidebar.radio(
 
 # 📌 **Saisie du nombre de pages à scraper**
 st.sidebar.write("### 📄 Nombre de pages à scraper")
-num_pages = st.sidebar.number_input("Entrez le nombre de pages (entre 1 et 10) :", min_value=1, max_value=10, value=1, step=1)
+num_pages = st.sidebar.number_input("Entrez le nombre de pages (entre 1 et 10) :", min_value=1, max_value=16, value=1, step=1)
 
 # 📥 **Affichage du formulaire directement dans l'application**
 if menu_option == "Remplir le formulaire":
@@ -249,7 +268,7 @@ if menu_option == "Voir les datasets existants":
 # 🔍 **Scraper de nouvelles données**
 elif menu_option == "Scraper de nouvelles données":
     st.write("## 🔍 Scraper de nouvelles données")
-    url = st.text_input("🌍 Entrez l'URL à scraper :", "https://www.expat-dakar.com/")
+    url = st.text_input("🌍 Entrez l'URL à scraper :", "...")
     
     if st.sidebar.button("🚀 Lancer le scraping"):
         st.info("📡 Scraping en cours... Patientez.")
