@@ -280,14 +280,5 @@ elif menu_option == "Scraper de nouvelles données":
                 file_name="donnees_scrappees.csv",
                 mime="text/csv"
             )
-            
-            # Ajout d'un bouton pour lancer une analyse sur les données scrapées
-            if st.button("📈 Lancer l'analyse"):
-                st.write("### 📈 Analyse des données scrapées")
-                # Exemple d'analyse simple : afficher la moyenne des prix
-                if 'PRIX' in scraped_data.columns:
-                    scraped_data['PRIX'] = pd.to_numeric(scraped_data['PRIX'], errors='coerce')
-                    mean_price = scraped_data['PRIX'].mean()
-                    st.write(f"💰 Prix moyen : {mean_price:.2f} CFA")
         else:
             st.warning("Aucune donnée trouvée, veuillez vérifier l'URL et les classes CSS utilisées.")
