@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.markdown("<h1 style='text-align: center; color: black;'>Mon Projet Fianal</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: black;'>Mon Projet Final</h1>", unsafe_allow_html=True)
 
 # Injection de CSS personnalisé pour mettre le texte en blanc
 def add_custom_css():
