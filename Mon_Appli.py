@@ -191,37 +191,49 @@ def load_dataset(file_path, dataset_name):
     st.write(f"### 📊 Aperçu du jeu de données : {dataset_name}")
     st.write(f"🔢 Nombre de lignes affichées : {min(len(df), max_rows)}")
     st.dataframe(displayed_df)
-    
+
+    # Ajout d'un bouton pour calculer les prix
+    # Ajout d'un bouton pour calculer les prix
+    if st.button("💰 Calculer les prix"):
+        st.write("### 💰 Statistiques sur les prix")
+        try:
+            # Assurez-vous que la colonne 'PRIX' est convertie en numérique
+            displayed_df['PRIX'] = pd.to_numeric(displayed_df['PRIX'], errors='coerce')
+
+            # Calcul des statistiques
+            price_stats = displayed_df['PRIX'].describe()
+            total_price = displayed_df['PRIX'].sum()  # Calcul du prix total
+
+            # Création de deux colonnes pour afficher les statistiques et le prix total côte à côte
+            col1, col2 = st.columns(2)
+
+            # Affichage des statistiques dans la première colonne
+            with col1:
+                st.write("#### 📊 Détails des prix")
+                st.write(price_stats)
+
+            # Affichage du prix total dans la deuxième colonne
+            with col2:
+                st.write("#### 📈 Prix total")
+                st.write(f"**{total_price} CFA**")
+
+        except Exception as e:
+            st.error(f"Une erreur s'est produite lors du calcul des prix : {e}")
+            
+            # Affichage des statistiques
+            st.write(price_stats)
+            st.write(f"📈 **Prix total :** {total_price} CFA")
+        except Exception as e:
+            st.error(f"Une erreur s'est produite lors du calcul des prix : {e}")
+
     # Ajout d'un bouton pour afficher le résumé statistique
     if st.button("📊 Afficher le résumé statistique"):
         st.write("### 📊 Résumé statistique")
         st.write(displayed_df.describe())
-    
-    variables = displayed_df.columns.tolist()
-    selected_variables = st.multiselect("🔧 Sélectionnez les variables pour l'analyse :", variables, default=variables)
-    chart_type = st.selectbox("📊 Sélectionnez le type de graphique :", ["Histogramme", "Boîte à moustaches", "Diagramme à barres"])
-    
-    if selected_variables:
-        st.write(f"### 📈 Graphique basé sur les variables sélectionnées : {', '.join(selected_variables)}")
-        numeric_columns = displayed_df.select_dtypes(include=['number', 'datetime']).columns.tolist()
-        selected_numeric_vars = [var for var in selected_variables if var in numeric_columns]
-        
-        if chart_type == "Histogramme" and selected_numeric_vars:
-            fig, ax = plt.subplots(figsize=(10, 6))
-            displayed_df[selected_numeric_vars].hist(ax=ax)
-            st.pyplot(fig)
-        elif chart_type == "Boîte à moustaches":
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.boxplot(data=displayed_df[selected_variables], ax=ax)
-            st.pyplot(fig)
-        elif chart_type == "Diagramme à barres":
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.barplot(data=displayed_df, x=selected_variables[0], y=selected_variables[1], ax=ax)
-            st.pyplot(fig)
-    
+
     st.sidebar.download_button(
         label="📥 Télécharger ces données",
-        data=displayed_df.to_csv(index=False),
+        data=displayed_df.to_csv(index=False), 
         file_name=f"{dataset_name}_extrait.csv",
         mime="text/csv"
     )
